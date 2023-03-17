@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Weather app</title>
+</head>
+<style type="text/css">
+	.Weather{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		margin-top: 100px;
+	}
+	.city{
+    width: 250px;
+    height: 41px;
+    border-radius: 3px;
+    border-width: 1px solid black;
+    border: 2px solid;
+    outline-width: 0;
+    margin-bottom: -20px;
+    font-size: 21px;
+	}
+	.temp{
+		margin-bottom: -15px;
+		    margin-top: -15px;
+	}
+	.cross {
+		
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: Arial;
+    background-color: brown;
+	color: white;
+   
+    position: relative;
+    left: 100px;
+    top: -33px;
+    font-size: 25px;
+
+	}
+	.cross p{
+		margin:0px;
+		padding: 7px 20px;
+		
+	}
+
+	
+
+</style>
+<body>
+
+	<div class="Weather">
+		<form>
+		<input class="city">
+		</form>
+		<div class="cross">
+			<p>X</p>
+		</div>
+		
+        <h1></h1>
+		<h2 class="temp"><sup></sup></h2>
+		<h3 class="condition"></h3>
+	</div>
+
+</body>
+<script type="text/javascript">
+	const weather = document.querySelector('.weather')
+	const form = document.querySelector('form')
+	const cityInput = document.querySelector('.city')
+	const cityName = document.querySelector('h1')
+	const temperature = document.querySelector('.temp')
+	const weatherCondition = document.querySelector('.condition')
+	const cross = document.querySelector('.cross')
+	
+
+
+	// fetch(`api.openweathermap.org/data/2.5/weather?q=Newyork&APPID=8e5b2c2373e0d397e963afd8b7ed2ded&units=metric`)
+	// .then(response => response.json())
+	// .then(json => console.log(json))
+
+form.addEventListener(
+	"submit",
+	function(e){
+	
+	e.preventDefault()
+    getWeather(cityInput.value)
+    
+ 
+
+    
+	
+}
+)
+
+const getWeather =(city)=>{
+	cityName.innerText = 'Loading....'
+	fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=8e5b2c2373e0d397e963afd8b7ed2ded&units=metric`)
+	.then(response => response.json())
+	.then(json =>{
+		
+		cityName.innerText = `Name: ${cityInput.value}`
+		temperature.innerText = `Temperatue: ${json.main.temp}ºC`
+		weatherCondition.innerText = `Conditon: ${json.weather[0].main}`
+		
+				
+	})
+	
+
+}
+cross.onclick=()=>{
+	cityInput.value =''
+	cityName.innerText =''
+	temperature.innerText = ''
+	weatherCondition.innerText =''
+}
+
+
+
+</script>
+</html>
